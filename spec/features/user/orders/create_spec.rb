@@ -56,6 +56,10 @@ RSpec.describe 'Create Order' do
       order = Order.last
       order_item = order.order_items.where(item_id: @giant.id)
       expect(order_item.pluck(:price).first).to eq(42.5)
+
+      within "#order-#{order.id}" do
+        expect(page).to have_link(order.id)
+      end
     end
   end
 
