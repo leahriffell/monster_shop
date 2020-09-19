@@ -82,6 +82,8 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Discounted price: #{number_to_currency(@giant.price * (1 - @cart.discount_percent_for(@giant)))}")
           expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@giant.id) * @cart.discount_price_for(@giant))}")
         end
+
+        expect(page).to have_content("Total: #{number_to_currency((@ogre.price * 1) + (42.5 * 10) + (@hippo.price * 50))}")
       end
     end
 
