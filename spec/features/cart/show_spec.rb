@@ -4,11 +4,13 @@ include ActionView::Helpers::NumberHelper
 RSpec.describe 'Cart Show Page' do
   describe 'As a Visitor' do
     before :each do
-      @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
-      @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
-      @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-      @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
-      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @monster_shop = Merchant.create!(name: 'Megans Monsters', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+      @pet_shop = Merchant.create!(name: 'Brians Pets', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
+
+      @ogre = @monster_shop.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
+      @giant = @monster_shop.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+
+      @hippo = @pet_shop.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
     end
 
     describe 'I can see my cart' do
@@ -29,9 +31,9 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Price: #{number_to_currency(@ogre.price)}")
           expect(page).to have_content("Quantity: 1")
           expect(page).to have_content("Subtotal: #{number_to_currency(@ogre.price * 1)}")
-          expect(page).to have_content("Sold by: #{@megan.name}")
+          expect(page).to have_content("Sold by: #{@monster_shop.name}")
           expect(page).to have_css("img[src*='#{@ogre.image}']")
-          expect(page).to have_link(@megan.name)
+          expect(page).to have_link(@monster_shop.name)
         end
 
         within "#item-#{@hippo.id}" do
@@ -39,9 +41,9 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Price: #{number_to_currency(@hippo.price)}")
           expect(page).to have_content("Quantity: 2")
           expect(page).to have_content("Subtotal: #{number_to_currency(@hippo.price * 2)}")
-          expect(page).to have_content("Sold by: #{@brian.name}")
+          expect(page).to have_content("Sold by: #{@pet_shop.name}")
           expect(page).to have_css("img[src*='#{@hippo.image}']")
-          expect(page).to have_link(@brian.name)
+          expect(page).to have_link(@pet_shop.name)
         end
       end
 
