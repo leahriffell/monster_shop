@@ -43,6 +43,6 @@ class Merchant < ApplicationRecord
   end
 
   def discount_percent_for(qty)
-    Merchant.first.discounts.where("min_qty <= #{qty}").order(percent: :desc).first.percent
+    discounts.where("min_qty <= #{qty}").order(percent: :desc).first.percent
   end
 end
