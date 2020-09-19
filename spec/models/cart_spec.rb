@@ -10,7 +10,7 @@ RSpec.describe Cart do
       @giant = @monster_shop.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 2 )
       @hippo = @pet_shop.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
 
-      @monster_shop.discounts.create!(percent: 10, min_qty: 2)
+      @monster_shop.discounts.create!(percent: 0.1, min_qty: 2)
 
       @cart = Cart.new({
         @ogre.id.to_s => 1,
@@ -78,7 +78,16 @@ RSpec.describe Cart do
 
     it '.discount_percent_for(item)' do 
       expect(@cart.discount_percent_for(@ogre)).to eq(nil)
-      expect(@cart.discount_percent_for(@giant)).to eq(10)
+      expect(@cart.discount_percent_for(@giant)).to eq(0.1)
+    end
+
+    it '.subtotal_with_discount(item, discount_percent)' do
+      discount_percent = @cart.discount_percent_for(@giant)
+      discounted_price = @giant.price * (1 - @cart.discount_percent_for(@giant))
+      qty = @cart.count_of(@giant.id)
+      total = discounted_price * qty
+
+      expect(@cart.subtotal_with_discount(@giant, discount_percent)).to eq(total)
     end
   end
 end

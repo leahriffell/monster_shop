@@ -59,4 +59,8 @@ class Cart
       nil
     end
   end
+
+  def subtotal_with_discount(item, discount_percent) 
+    @contents[item.id.to_s] * (Item.find(item.id).price * (1 - discount_percent))
+  end
 end
