@@ -43,4 +43,12 @@ class Cart
   def limit_reached?(item_id)
     count_of(item_id) == Item.find(item_id).inventory
   end
+
+  def has_discount(item)
+    if item.merchant.offers_discount?
+      count_of(item.id) >= item.merchant.lowest_min_qty_discount
+    else 
+      false 
+    end
+  end
 end
