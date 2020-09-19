@@ -75,5 +75,10 @@ RSpec.describe Cart do
       expect(@cart.has_discount(@ogre)).to eq(false)
       expect(@cart.has_discount(@hippo)).to eq(false)
     end
+
+    it '.discount_percent_for(item)' do 
+      expect(@cart.discount_percent_for(@ogre)).to eq(nil)
+      expect(@cart.discount_percent_for(@giant)).to eq(10)
+    end
   end
 end

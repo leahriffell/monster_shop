@@ -51,4 +51,12 @@ class Cart
       false 
     end
   end
+
+  def discount_percent_for(item)
+    if has_discount(item)
+      item.merchant.discount_percent_for(count_of(item.id))
+    else 
+      nil
+    end
+  end
 end
