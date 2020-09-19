@@ -5,29 +5,42 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
     <nav>
-      <%= link_to 'Home', root_path %>
-      <%= link_to 'Register', registration_path unless current_user %>
-      <%= link_to 'Log In', login_path unless current_user %>
-      <% if current_user %>
-        <%= link_to 'Log Out', logout_path %>
-        <%= link_to 'Profile', profile_path %>
-        <p>Logged in as <%= current_user.name %></p>
-        <% if current_merchant_user? %>
-          <%= link_to 'Merchant Dashboard', merchant_dashboard_path %>
-        <% elsif current_admin? %>
-          <%= link_to 'Admin Dashboard', admin_dashboard_path %>
-          <%= link_to 'Users', '/admin/users' %>
-        <% end %>
-      <% end %>
-      <%= link_to 'Merchants', '/merchants' %>
-      <%= link_to 'Items', '/items' %>
-      <%= link_to "Cart: #{cart.count}", cart_path unless current_user && current_admin?%>
-    </nav>
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <!-- <a class="navbar-brand" href="/">
+              <img src="logo.png" alt="logo">
+            </a> -->
+            <ul class="nav navbar-nav">
+              <li><%= link_to 'Home', root_path %></li>
+              <li><%= link_to 'Register', registration_path unless current_user %></li>
+              <li><%= link_to 'Log In', login_path unless current_user %></li>
+              <% if current_user %>
+                <li><%= link_to 'Log Out', logout_path %></li>
+                <li><%= link_to 'Profile', profile_path %></li>
+                <p>Logged in as <%= current_user.name %></p>
+                <% if current_merchant_user? %>
+                  <li><%= link_to 'Merchant Dashboard', merchant_dashboard_path %></li>
+                <% elsif current_admin? %>
+                  <li><%= link_to 'Admin Dashboard', admin_dashboard_path %></li>
+                  <li><%= link_to 'Users', '/admin/users' %></li>
+                <% end %>
+              <% end %>
+              <li><%= link_to 'Merchants', '/merchants' %></li>
+              <li><%= link_to 'Items', '/items' %></li>
+              <li><%= link_to "Cart: #{cart.count}", cart_path unless current_user && current_admin? %></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
     <% flash.each do |type, message| %>
     <p><%= message %></p>
     <% end %>
