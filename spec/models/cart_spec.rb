@@ -81,6 +81,10 @@ RSpec.describe Cart do
       expect(@cart.discount_percent_for(@giant)).to eq(0.1)
     end
 
+    it '.discount_price_for(item)' do 
+      expect(@cart.discount_price_for(@giant)).to eq(45)
+    end
+
     it '.subtotal_with_discount(item, discount_percent)' do
       discount_percent = @cart.discount_percent_for(@giant)
       discounted_price = @giant.price * (1 - @cart.discount_percent_for(@giant))
