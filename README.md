@@ -16,13 +16,22 @@ Merchants add bulk discount rates for all of their inventory. These apply automa
 #### Completion Criteria
 
 1. Merchants need full CRUD functionality on bulk discounts, and will be accessed a link on the merchant's dashboard.
+  - CRUD % and qty 
 1. You will implement a percentage based discount: 
-   - 5% discount on 20 or more items
+  - 5% discount on 20 or more items
 1. A merchant can have multiple bulk discounts in the system.
+  - A discount is by merchant NOT by item 
+  - If a merchant has 10% off 5 items and 20% of 10 items and a user buys 5 of X and 10 of Y, both will get the discount
+  - Has to be all of the same item. 10% off 10 does not mean user can buy 5 of X and 5 of Y, only 10 of X or Y
 1. When a user adds enough value or quantity of a single item to their cart, the bulk discount will automatically show up on the cart page.
 1. A bulk discount from one merchant will only affect items from that merchant in the cart.
 1. A bulk discount will only apply to items which exceed the minimum quantity specified in the bulk discount. (eg, a 5% off 5 items or more does not activate if a user is buying 1 quantity of 5 different items; if they raise the quantity of one item to 5, then the bulk discount is only applied to that one item, not all of the others as well)
 1. When there is a conflict between two discounts, the greater of the two will be applied. 
+  - More than one discount can be applied per order, but only one discount per item 
+  - Merch can have 1+ discount per order IF diff items meet the minimum 
+  - Multiple merchants can have discounts in the same order
+  - Do robust testing! 
+  - Greater discount just means higher percentage b/c % discount will apply to all of the similar items in that order (10% off 5 means all 5 get 10% off)
 1. Final discounted prices should appear on the orders show page.
 
 #### Mod 2 Learning Goals reflected:
