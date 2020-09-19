@@ -39,6 +39,9 @@ RSpec.describe 'Create Order' do
     end
 
     it 'I can click a link to create an order that has discount(s)' do 
+      @monster_shop.discounts.create!(percent: 0.1, min_qty: 10)
+      @monster_shop.discounts.create!(percent: 0.15, min_qty: 8)
+      
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @giant.id.to_s => 10,
@@ -46,6 +49,13 @@ RSpec.describe 'Create Order' do
         })
         
       allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
+      visit '/cart'
+      click_button 'Check Out'
+
+      order = Order.last
+      order_item = order.order_items.where(item_id: @giant.id)
+      expect(order_item.pluck(:price).first).to eq(42.5)
     end
   end
 
