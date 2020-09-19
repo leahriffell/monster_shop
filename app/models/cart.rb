@@ -67,4 +67,8 @@ class Cart
   def subtotal_with_discount(item, discount_percent) 
     @contents[item.id.to_s] * (Item.find(item.id).price * (1 - discount_percent))
   end
+
+  def any_discounts? 
+    @contents.any? { |item| self.has_discount(Item.find(item[0])) }
+  end
 end
