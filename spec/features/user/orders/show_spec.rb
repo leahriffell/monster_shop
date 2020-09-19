@@ -63,7 +63,7 @@ RSpec.describe 'Order Show Page' do
       end
     end
 
-    it 'I can see grand total for other that has discount(s)' do
+    it 'I can see grand total for order that has discount(s)' do
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @hippo.id.to_s => 50
