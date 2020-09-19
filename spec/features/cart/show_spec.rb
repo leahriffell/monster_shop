@@ -4,11 +4,18 @@ include ActionView::Helpers::NumberHelper
 RSpec.describe 'Cart Show Page' do
   describe 'As a Visitor' do
     before :each do
-      @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
-      @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
-      @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-      @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
-      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @monster_shop = Merchant.create!(name: 'Megans Monsters', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+      @pet_shop = Merchant.create!(name: 'Brians Pets', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
+
+      @ogre = @monster_shop.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
+      @giant = @monster_shop.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+
+      @hippo = @pet_shop.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+
+      @monster_shop.discounts.create!(percent: 0.1, min_qty: 2)
+      @monster_shop.discounts.create!(percent: 0.1, min_qty: 10)
+      @monster_shop.discounts.create!(percent: 0.15, min_qty: 8)
+      @monster_shop.discounts.create!(percent: 0.2, min_qty: 20)
     end
 
     describe 'I can see my cart' do
@@ -29,9 +36,9 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Price: #{number_to_currency(@ogre.price)}")
           expect(page).to have_content("Quantity: 1")
           expect(page).to have_content("Subtotal: #{number_to_currency(@ogre.price * 1)}")
-          expect(page).to have_content("Sold by: #{@megan.name}")
+          expect(page).to have_content("Sold by: #{@monster_shop.name}")
           expect(page).to have_css("img[src*='#{@ogre.image}']")
-          expect(page).to have_link(@megan.name)
+          expect(page).to have_link(@monster_shop.name)
         end
 
         within "#item-#{@hippo.id}" do
@@ -39,9 +46,9 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Price: #{number_to_currency(@hippo.price)}")
           expect(page).to have_content("Quantity: 2")
           expect(page).to have_content("Subtotal: #{number_to_currency(@hippo.price * 2)}")
-          expect(page).to have_content("Sold by: #{@brian.name}")
+          expect(page).to have_content("Sold by: #{@pet_shop.name}")
           expect(page).to have_css("img[src*='#{@hippo.image}']")
-          expect(page).to have_link(@brian.name)
+          expect(page).to have_link(@pet_shop.name)
         end
       end
 
@@ -50,6 +57,33 @@ RSpec.describe 'Cart Show Page' do
 
         expect(page).to have_content('Your Cart is Empty!')
         expect(page).to_not have_button('Empty Cart')
+      end
+
+      it "I can view any discounts on items" do
+        @cart = Cart.new({
+          @ogre.id.to_s => 1,
+          @giant.id.to_s => 10,
+          @hippo.id.to_s => 50
+          })
+        allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
+        visit '/cart'
+
+        expect(@cart.discount_percent_for(@ogre)).to eq(nil)
+        expect(@cart.discount_percent_for(@giant)).to eq(0.15)
+        expect(@cart.discount_percent_for(@hippo)).to eq(nil)
+
+        within("#item-#{@ogre.id}") do 
+          expect(page).to have_content("Price: #{number_to_currency(@ogre.price)}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.subtotal_of(@ogre.id))}")
+        end
+
+        within("#item-#{@giant.id}") do 
+          expect(page).to have_content("Discounted price: #{number_to_currency(@giant.price * (1 - @cart.discount_percent_for(@giant)))}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@giant.id) * @cart.discount_price_for(@giant))}")
+        end
+
+        expect(page).to have_content("Total: #{number_to_currency((@ogre.price * 1) + (42.5 * 10) + (@hippo.price * 50))}")
       end
     end
 

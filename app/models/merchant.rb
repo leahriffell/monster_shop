@@ -3,6 +3,7 @@ class Merchant < ApplicationRecord
   has_many :order_items, through: :items
   has_many :orders, through: :order_items
   has_many :users
+  has_many :discounts
 
   validates_presence_of :name,
                         :address,
@@ -31,5 +32,17 @@ class Merchant < ApplicationRecord
 
   def order_items_by_order(order_id)
     order_items.where(order_id: order_id)
+  end
+
+  def lowest_min_qty_discount
+    discounts.order(:min_qty).limit(1).pluck(:min_qty).first
+  end
+
+  def offers_discount?
+    discounts.count > 0 
+  end
+
+  def discount_percent_for(qty)
+    discounts.where("min_qty <= #{qty}").order(percent: :desc).first.percent
   end
 end
