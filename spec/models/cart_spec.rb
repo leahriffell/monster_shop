@@ -68,7 +68,7 @@ RSpec.describe Cart do
       expect(@cart.count_of(@giant.id)).to eq(1)
     end
 
-    it '.has_discount?' do
+    it '.has_discount?(item)' do
       @cart.add_item(@hippo.id.to_s)
 
       expect(@cart.has_discount(@giant)).to eq(true)
