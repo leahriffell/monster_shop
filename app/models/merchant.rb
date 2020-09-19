@@ -33,4 +33,16 @@ class Merchant < ApplicationRecord
   def order_items_by_order(order_id)
     order_items.where(order_id: order_id)
   end
+
+  def lowest_min_qty_discount
+    discounts.order(:min_qty).limit(1).pluck(:min_qty).first
+  end
+
+  def offers_discount?
+    discounts.count > 0 
+  end
+
+  def discount_percent_for(qty)
+    Merchant.first.discounts.where("min_qty <= #{qty}").order(percent: :desc).first.percent
+  end
 end
