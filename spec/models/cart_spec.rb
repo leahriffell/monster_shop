@@ -44,7 +44,7 @@ RSpec.describe Cart do
     end
 
     it '.grand_total' do
-      expect(@cart.grand_total).to eq(120)
+      expect(@cart.grand_total).to eq(110)
     end
 
     it '.count_of()' do
