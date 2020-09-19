@@ -63,7 +63,7 @@ RSpec.describe 'Order Show Page' do
       end
     end
 
-    it 'I can see grand total for order that has discount(s)' do
+    it 'I can see info for order w/ discounts' do
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @hippo.id.to_s => 50
@@ -74,9 +74,15 @@ RSpec.describe 'Order Show Page' do
       click_button 'Check Out'
 
       order = @user.orders.last 
+      discount_order_item = order.order_items.where(item_id: @hippo.id).first
 
       visit "/profile/orders/#{order.id}"
+
       expect(page).to have_content("Total: #{number_to_currency(@cart.grand_total)}")
+
+      within("#order-item-#{discount_order_item.id}") do
+        expect(page).to have_content("Price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
+      end
     end
 
     it 'I see a link to cancel an order, only on a pending order show page' do
