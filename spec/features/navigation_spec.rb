@@ -6,7 +6,7 @@ RSpec.describe 'Site Navigation' do
       it 'the welcome page' do
         visit items_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Home'
         end
 
@@ -16,7 +16,7 @@ RSpec.describe 'Site Navigation' do
       it 'all items' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Items'
         end
 
@@ -26,7 +26,7 @@ RSpec.describe 'Site Navigation' do
       it 'all merchants' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Merchants'
         end
 
@@ -36,7 +36,7 @@ RSpec.describe 'Site Navigation' do
       it 'my cart' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Cart: 0'
         end
 
@@ -46,7 +46,7 @@ RSpec.describe 'Site Navigation' do
       it 'the login page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Log In'
         end
 
@@ -56,7 +56,7 @@ RSpec.describe 'Site Navigation' do
       it 'the registraton page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Register'
         end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Site Navigation' do
     it 'I see who I am logged in as' do
       visit root_path
 
-      within 'nav' do
+      within '.navbar-nav' do
         expect(page).to have_content("Logged in as #{@user.name}")
       end
     end
@@ -83,7 +83,7 @@ RSpec.describe 'Site Navigation' do
       it 'the welcome page' do
         visit items_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Home'
         end
 
@@ -93,7 +93,7 @@ RSpec.describe 'Site Navigation' do
       it 'all items' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Items'
         end
 
@@ -103,7 +103,7 @@ RSpec.describe 'Site Navigation' do
       it 'all merchants' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Merchants'
         end
 
@@ -113,7 +113,7 @@ RSpec.describe 'Site Navigation' do
       it 'my cart' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Cart: 0'
         end
 
@@ -123,7 +123,7 @@ RSpec.describe 'Site Navigation' do
       it 'the logout page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Log Out'
         end
 
@@ -133,7 +133,7 @@ RSpec.describe 'Site Navigation' do
       it 'my profile page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Profile'
         end
 
@@ -166,7 +166,7 @@ RSpec.describe 'Site Navigation' do
     it 'I see who I am logged in as' do
       visit root_path
 
-      within 'nav' do
+      within '.navbar-nav' do
         expect(page).to have_content("Logged in as #{@m_user.name}")
       end
     end
@@ -175,7 +175,7 @@ RSpec.describe 'Site Navigation' do
       it 'the welcome page' do
         visit items_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Home'
         end
 
@@ -185,7 +185,7 @@ RSpec.describe 'Site Navigation' do
       it 'all items' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Items'
         end
 
@@ -195,7 +195,7 @@ RSpec.describe 'Site Navigation' do
       it 'all merchants' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Merchants'
         end
 
@@ -205,7 +205,7 @@ RSpec.describe 'Site Navigation' do
       it 'my cart' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Cart: 0'
         end
 
@@ -215,7 +215,7 @@ RSpec.describe 'Site Navigation' do
       it 'the logout page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Log Out'
         end
 
@@ -225,7 +225,7 @@ RSpec.describe 'Site Navigation' do
       it 'my profile page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Profile'
         end
 
@@ -235,7 +235,7 @@ RSpec.describe 'Site Navigation' do
       it 'my merchant page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Merchant Dashboard'
         end
 
@@ -267,7 +267,7 @@ RSpec.describe 'Site Navigation' do
     it 'I see who I am logged in as' do
       visit root_path
 
-      within 'nav' do
+      within '.navbar-nav' do
         expect(page).to have_content("Logged in as #{@admin.name}")
       end
     end
@@ -276,7 +276,7 @@ RSpec.describe 'Site Navigation' do
       it 'the welcome page' do
         visit items_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Home'
         end
 
@@ -286,7 +286,7 @@ RSpec.describe 'Site Navigation' do
       it 'all items' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Items'
         end
 
@@ -296,7 +296,7 @@ RSpec.describe 'Site Navigation' do
       it 'all merchants' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Merchants'
         end
 
@@ -306,7 +306,7 @@ RSpec.describe 'Site Navigation' do
       it 'the logout page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Log Out'
         end
 
@@ -316,7 +316,7 @@ RSpec.describe 'Site Navigation' do
       it 'my profile page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Profile'
         end
 
@@ -326,7 +326,7 @@ RSpec.describe 'Site Navigation' do
       it 'my merchant page' do
         visit root_path
 
-        within 'nav' do
+        within '.navbar-nav' do
           click_link 'Admin Dashboard'
         end
 

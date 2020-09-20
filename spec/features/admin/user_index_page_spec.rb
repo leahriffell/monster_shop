@@ -14,7 +14,7 @@ RSpec.describe "Admin Users Index" do
     it "I can link to a list of all users" do
       visit '/admin'
 
-      within 'nav' do
+      within '.navbar-nav' do
         click_link 'Users'
       end
 
