@@ -1,0 +1,14 @@
+language: ruby
+cache:
+- bundler
+before_script:
+- bundle exec rake db:create
+- bundle exec rake db:migrate
+- bundle exec rake assets:precompile
+deploy:
+  provider: heroku
+  api_key:
+    secure: "PE4FdYB1m6gIIUwweMFKZ3u9NrxMLe7zbpnqn9Cs6DrvnhNMCfAN/MpRDLOTP7M79k02Jhq3fPxNnHoQwxF+OBtNGCvCTFOQxh33mHqOFKqXUrxgy5YVGzUHOQqbK7MikdQlZsSK1GopCw6xx9+xu0fKh4I4aGz5fb9itqfqB9+KKE+CkX+0m1x42wpKlbXa56NUs3lbnbMpHIE2M26KO+NIHSSvKQZhVp5XSb2s1zLMwzAY1sSO6pxwm84BeDYeAJoONFV9/YaPZWEC3CR7xhhl3H2d5X37JToV33toxBYQoikyCwPVTLzYont3iFRG8wuxihEnvc8jnhz5zZjhrjK7LoJDJC4A+aNN7jG6jCHvJsjMns8V+ey5kEqJZ1H3A9rvcXUbAOqF9RKjfcDiik585qmAbbvGxwOVEKo+RlkyytytOTgQQt2GNSa7VVMkXJVxUvg0F8I46ScpWTKzZm+LXY7rLiX686OBoa5yCvohTlr/3Y+RYiatxdeKO8ThuJRmXxWoUgiD/KSRMuR/T9/2NJjw7wC/8dYp4kxrMn1pXC0BscJzHrWEQBxwcPQaZ1ctVzaX8x+nPH0H4+rNl+KJEIm/n4hvmZTrqc0q3860qC7749eRAnl8DaVxDR1UrjmtSxWzB7iRPs035NUMjbwGUQEa0Ke2y2ikCHquKkc="
+  app: monster-shop-final-lriff
+  on:
+    repo: leahriffell/monster_shop_final
