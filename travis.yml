@@ -6,8 +6,9 @@ cache:
 services:
   - postgresql
 before_script:
-    - bundle exec rails db:reset 
-    - bundle exec rspec
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - bundle exec rails db:reset 
+  - bundle exec rspec
 deploy:
   provider: heroku
   api_key:
