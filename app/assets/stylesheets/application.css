@@ -13,6 +13,12 @@
  *= require_tree .
  *= require_self
  */
+ :root {
+  /* --color__primary: #0000FF;
+  --color__secondary: #62B1F6;
+  --color__charcoal: #2B2D2F; */
+  --color__success: #06D6A0
+}
 
 #welcome-logo {
   display: block;
@@ -26,4 +32,9 @@
   grid-template-columns: repeat(5,1fr);
   grid-template-rows: auto;
   grid-gap: 30px;
+}
+
+.logged-in-name {
+  color: var(--color__success);
+  font-style: italic;
 }
