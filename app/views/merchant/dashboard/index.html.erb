@@ -18,6 +18,7 @@
 
 <section class="discounts">
   <h3>My discounts:</h3>
+  <%= link_to "Add discount", merchant_discounts_new_path %>
   <% @merchant.discounts.each do |discount| %>
     <section id="discount-<%= discount.id %>">
       <%= link_to discount.id, "/merchant/discounts/#{discount.id}" %>
