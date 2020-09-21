@@ -83,5 +83,12 @@ RSpec.describe 'Merchant Dashboard' do
         end
       end
     end
+
+    it "I can link to form for adding new discount" do 
+      visit '/merchant'
+
+      click_link "Add discount"
+      expect(current_path).to eq("/merchant/discounts/new")
+    end
   end
 end
