@@ -6,9 +6,8 @@ cache:
 services:
   - postgresql
 before_script:
-- bundle exec rake db:create
-- bundle exec rake db:migrate
-- bundle exec rake assets:precompile
+    - bundle exec rails db:reset 
+    - bundle exec rspec
 deploy:
   provider: heroku
   api_key:
