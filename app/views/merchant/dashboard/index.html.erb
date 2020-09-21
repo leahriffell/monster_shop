@@ -5,12 +5,24 @@
 <%= link_to 'My Items', '/merchant/items' %>
 
 <section class="orders">
+  <h3>My orders:</h3>
   <% @merchant.pending_orders.each do |order| %>
     <section id="order-<%= order.id %>">
       <%= link_to order.id, "/merchant/orders/#{order.id}" %>
       <p>Potential Revenue: <%= order.merchant_subtotal(@merchant.id) %></p>
       <p>Quantity of Items: <%= order.merchant_quantity(@merchant.id) %></p>
       <p>Created: <%= order.created_at %></p>
+    </section>
+  <% end %>
+</section>
+
+<section class="discounts">
+  <h3>My discounts:</h3>
+  <% @merchant.discounts.each do |discount| %>
+    <section id="discount-<%= discount.id %>">
+      <%= link_to discount.id, "/merchant/discounts/#{discount.id}" %>
+      <p>Discount percent: <%= format_as_percent(discount.percent) %></p>
+      <p>Minimum quantity: <%= discount.min_qty %></p>
     </section>
   <% end %>
 </section>

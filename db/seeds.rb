@@ -8,21 +8,35 @@
 
 OrderItem.destroy_all
 Item.destroy_all
+Order.destroy_all
+User.destroy_all
 Discount.destroy_all
 Merchant.destroy_all
 
 # merchants
-monster_shop = Merchant.create!(name: 'Megans Monsters', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
-pet_shop = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
+monster_shop = Merchant.create(name: 'Megans Monsters', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+pet_shop = Merchant.create(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
 
-# monster_shop's items
-monster_shop.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-monster_shop.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+# users
+@default_user = FactoryBot.create(:user, email: 'user@user.com', password: 'password', role: 0)
+@merchant_admin = FactoryBot.create(:user, email: 'merchant@merchant.com', password: 'password', role: 1)
+monster_shop.users << @merchant_admin
+@admin = FactoryBot.create(:user, email: 'admin@admin.com', password: 'password', role: 2)
 
-# pet_shop's items
-pet_shop.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+# items
+10.times do 
+  FactoryBot.create(:item, merchant: monster_shop)
+end
+
+10.times do 
+  FactoryBot.create(:item, merchant: pet_shop)
+end
 
 # discounts
-monster_shop.discounts.create!(percent: 10, min_qty: 2)
-monster_shop.discounts.create!(percent: 10, min_qty: 10)
-monster_shop.discounts.create!(percent: 20, min_qty: 20)
+5.times do 
+  FactoryBot.create(:discount, merchant: monster_shop)
+end
+
+5.times do 
+  FactoryBot.create(:discount, merchant: pet_shop)
+end
