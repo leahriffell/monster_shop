@@ -221,6 +221,7 @@ RSpec.describe 'Cart Show Page' do
 
         within("#item-#{@hippo.id}") do 
           click_button('More of This!')
+          expect(page).to have_content("This item qualifies for a discount!")
           expect(page).to have_content("Discounted price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
           expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
         end
@@ -236,6 +237,22 @@ RSpec.describe 'Cart Show Page' do
         allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
 
         visit '/cart'
+
+        within("#item-#{@hippo.id}") do 
+          expect(page).to have_content("Discounted price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
+        end
+
+        expect(page).to have_content("Total: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
+
+        within("#item-#{@hippo.id}") do 
+          click_button('Less of This!')
+          expect(page).to have_content("Price: #{number_to_currency(@hippo.price)}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@hippo.id) * @hippo.price)}")
+          expect(page).to_not have_content("This item qualifies for a discount!")
+        end
+
+        expect(page).to have_content("Total: #{number_to_currency(@cart.count_of(@hippo.id) * @hippo.price)}")
       end
     end
   end
