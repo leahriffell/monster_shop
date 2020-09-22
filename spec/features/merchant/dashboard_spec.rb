@@ -40,7 +40,9 @@ RSpec.describe 'Merchant Dashboard' do
     it 'I do not have a link to edit the merchant information' do
       visit '/merchant'
 
-      expect(page).to_not have_link('Edit')
+      within(".merchant-info") do
+        expect(page).to_not have_link('Edit')
+      end
     end
 
     it 'I see a list of pending orders containing my items' do
@@ -89,6 +91,18 @@ RSpec.describe 'Merchant Dashboard' do
 
       click_link "Add discount"
       expect(current_path).to eq("/merchant/discounts/new")
+    end
+
+    it "I can link to form for editing a discount" do 
+      visit '/merchant'
+
+      @merchant_1.discounts.each do |discount|
+        within("#discount-#{discount.id}") do
+          click_link "Edit"
+          expect(current_path).to eq("/merchant/discounts/#{discount.id}/edit")
+          visit '/merchant'
+        end
+      end
     end
   end
 end
