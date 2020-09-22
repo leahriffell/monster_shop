@@ -1,5 +1,7 @@
 <%= render 'address' %>
-<%= link_to 'Edit', '/profile/edit' %>
-<%= link_to 'Change Password', '/profile/edit_password' %>
+<%= link_to 'Edit', '/profile/edit' %><br>
+<%= link_to 'Change Password', '/profile/edit_password' %><br>
 
-<%= link_to 'My Orders', '/profile/orders' %>
+<% if !current_admin? %>
+  <%= link_to 'My Orders', profile_orders_path %>
+<% end %>
