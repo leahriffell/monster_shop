@@ -1,8 +1,11 @@
 <h2><%= link_to @merchant.name %></h2>
-<p><%= @merchant.address %></p>
-<p><%= @merchant.city %> <%= @merchant.state %> <%= @merchant.zip %></p>
 
-<%= link_to 'My Items', '/merchant/items' %>
+<section class="merchant-info">
+  <p><%= @merchant.address %></p>
+  <p><%= @merchant.city %> <%= @merchant.state %> <%= @merchant.zip %></p>
+  
+  <%= link_to 'My Items', '/merchant/items' %>
+</section>
 
 <section class="orders">
   <h3>My orders:</h3>
@@ -21,9 +24,12 @@
   <%= link_to "Add discount", merchant_discounts_new_path %>
   <% @merchant.discounts.each do |discount| %>
     <section id="discount-<%= discount.id %>">
-      <%= link_to discount.id, "/merchant/discounts/#{discount.id}" %>
-      <p>Discount percent: <%= format_as_percent(discount.percent) %></p>
-      <p>Minimum quantity: <%= discount.min_qty %></p>
+      <%= link_to discount.id, merchant_discount_show_path(discount.id) %>
+      <ul>
+        <li>Discount percent: <%= format_as_percent(discount.percent) %></li>
+        <li>Minimum quantity: <%= discount.min_qty %></li>
+        <%= link_to "Edit", merchant_discount_edit_path(discount.id) %>
+      </ul>
     </section>
   <% end %>
 </section>
