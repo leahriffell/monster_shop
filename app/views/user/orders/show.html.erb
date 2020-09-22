@@ -12,7 +12,11 @@
     <h3><%= link_to order_item.item.name, item_path(order_item.item) %></h3>
     <p><%= order_item.item.description %></p>
     <p>Quantity: <%= order_item.quantity %></p>
-    <p>Price: <%= number_to_currency(order_item.price) %></p>
+    <p>Price: <%= order_item.item_regular_price %></p>
+    <% if order_item.was_discounted? %>
+      <p class="success-message">This item qualified for a <%= format_as_percent(order_item.item_discount_percent) %> discount!</p>
+      <p>Discounted price: <%= number_to_currency(order_item.price) %></p>
+    <% end %>
     <p>Subtotal: <%= number_to_currency(order_item.subtotal) %></p>
   </section>
 <% end %>
