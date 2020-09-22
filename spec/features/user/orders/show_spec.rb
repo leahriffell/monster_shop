@@ -21,7 +21,6 @@ RSpec.describe 'Order Show Page' do
       @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: true)
       @order_item_2 = @order_2.order_items.create!(item: @giant, price: @hippo.price, quantity: 2, fulfilled: true)
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
-      @order_item_4 = @order_3.order_items.create!(item: @ogre, price: @ogre.price, quantity: 50, fulfilled: false)
 
       @pet_shop.discounts.create!(percent: 0.1, min_qty: 50)
 
@@ -63,13 +62,14 @@ RSpec.describe 'Order Show Page' do
       end
     end
 
-    it 'I can see info for order w/ discounts' do
+    it 'I can see different info for discounted item' do
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @hippo.id.to_s => 50
       })
 
       allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
       visit '/cart'
       click_button 'Check Out'
 
@@ -81,7 +81,9 @@ RSpec.describe 'Order Show Page' do
       expect(page).to have_content("Total: #{number_to_currency(@cart.grand_total)}")
 
       within("#order-item-#{discount_order_item.id}") do
-        expect(page).to have_content("Price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
+        expect(page).to have_content("Price: #{@hippo.price}")
+        expect(page).to have_content("This item qualified for a 10% discount!")
+        expect(page).to have_content("Discounted price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
       end
     end
 
