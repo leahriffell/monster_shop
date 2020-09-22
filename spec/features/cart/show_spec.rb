@@ -178,9 +178,6 @@ RSpec.describe 'Cart Show Page' do
         @monster_shop.discounts.create!(percent: 0.15, min_qty: 8)
         @monster_shop.discounts.create!(percent: 0.2, min_qty: 20)
         @pet_shop.discounts.create!(percent: 0.2, min_qty: 50)
-
-        # ogre and giant are monster shop
-        # hippo is pet_shop
       end
 
       it 'I can view any existing discounts on items reflected in subtotals and total'do
@@ -204,6 +201,41 @@ RSpec.describe 'Cart Show Page' do
         end
 
         expect(page).to have_content("Total: #{number_to_currency((@ogre.price * 1) + (42.5 * 10))}")
+      end
+
+      it "I can increase item while in cart to qualify for a discount" do 
+        @cart = Cart.new({
+          @hippo.id.to_s => 49,
+          })
+
+        allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
+        visit '/cart'
+
+        within("#item-#{@hippo.id}") do 
+          expect(page).to have_content("Price: #{number_to_currency(@hippo.price)}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@hippo.id) * @hippo.price)}")
+        end
+
+        expect(page).to have_content("Total: #{number_to_currency(@cart.count_of(@hippo.id) * @hippo.price)}")
+
+        within("#item-#{@hippo.id}") do 
+          click_button('More of This!')
+          expect(page).to have_content("Discounted price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
+        end
+
+        expect(page).to have_content("Total: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
+      end
+
+      it "I can decrease item while in cart to disqualify for a discount" do 
+        @cart = Cart.new({
+          @hippo.id.to_s => 50,
+          })
+
+        allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
+        visit '/cart'
       end
     end
   end
