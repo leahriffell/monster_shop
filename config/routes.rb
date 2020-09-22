@@ -38,6 +38,9 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#index', as: :dashboard
     get '/discounts/new', to: 'discounts#new'
     post '/discounts', to: 'discounts#create'
+    get '/discounts/:id', to: 'discounts#show', as: :discount_show
+    get '/discounts/:id/edit', to: 'discounts#edit', as: :discount_edit
+    patch '/discounts/:id', to: 'discounts#update', as: :discount
     resources :orders, only: :show
     resources :items, only: [:index, :new, :create, :edit, :update, :destroy]
     put '/items/:id/change_status', to: 'items#change_status'
