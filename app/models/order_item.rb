@@ -22,4 +22,8 @@ class OrderItem < ApplicationRecord
   def item_regular_price
     Item.find(item_id).price
   end
+
+  def item_discount_percent
+    (item_regular_price - price) / item_regular_price
+  end
 end

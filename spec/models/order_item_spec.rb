@@ -53,5 +53,10 @@ RSpec.describe OrderItem do
       expect(@order_item_4.item_regular_price).to eq(50)
       expect(@order_item_3.item_regular_price).to eq(50)
     end
+
+    it '.item_discount_percent' do 
+      expect(@order_item_4.item_discount_percent).to eq(0.15)
+      expect(@order_item_3.item_discount_percent).to eq(0)
+    end
   end
 end
