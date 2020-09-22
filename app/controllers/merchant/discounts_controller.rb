@@ -9,6 +9,10 @@ class Merchant::DiscountsController < Merchant::BaseController
     redirect_to merchant_dashboard_path
   end
 
+  def edit
+
+  end
+
   private 
 
   def discount_params
