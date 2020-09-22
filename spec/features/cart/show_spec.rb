@@ -254,6 +254,39 @@ RSpec.describe 'Cart Show Page' do
 
         expect(page).to have_content("Total: #{number_to_currency(@cart.count_of(@hippo.id) * @hippo.price)}")
       end
+
+      it "can select the higher discount percent to apply to item that qualifies for multiple discounts" do 
+        @pet_shop.discounts.create!(percent: 0.3, min_qty: 10)
+
+        @cart = Cart.new({
+          @hippo.id.to_s => 50,
+          })
+
+        allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
+        visit '/cart'
+
+        expect(@cart.discount_percent_for(@hippo)).to eq(0.3)
+
+        within("#item-#{@hippo.id}") do 
+          expect(page).to have_content("Discounted price: #{number_to_currency(@hippo.price * (1 - @cart.discount_percent_for(@hippo)))}")
+          expect(page).to have_content("Subtotal: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
+        end
+
+        expect(page).to have_content("Total: #{number_to_currency(@cart.count_of(@hippo.id) * @cart.discount_price_for(@hippo))}")
+      end
+
+      it "can apply discount to multiple items that qualify for the same discount" do 
+        @cart = Cart.new({
+          @ogre.id.to_s => 2,
+          @giant.id.to_s => 2,
+          })
+
+        allow_any_instance_of(ApplicationController).to receive(:cart).and_return(@cart)
+
+        expect(@cart.discount_percent_for(@ogre)).to eq(0.1)
+        expect(@cart.discount_percent_for(@giant)).to eq(0.1)
+      end
     end
   end
 end
