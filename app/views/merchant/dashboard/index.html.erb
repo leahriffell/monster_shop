@@ -28,7 +28,8 @@
       <ul>
         <li>Discount percent: <%= format_as_percent(discount.percent) %></li>
         <li>Minimum quantity: <%= discount.min_qty %></li>
-        <%= link_to "Edit", merchant_discount_edit_path(discount.id) %>
+        <%= link_to "Edit", merchant_discount_edit_path(discount.id) %><br>
+        <%= link_to "Delete", merchant_discount_destroy_path(discount.id), method: :delete %>
       </ul>
     </section>
   <% end %>
