@@ -15,8 +15,8 @@
  */
  :root {
   /* --color__primary: #0000FF;
-  --color__secondary: #62B1F6;
-  --color__charcoal: #2B2D2F; */
+  --color__secondary: #62B1F6; */
+  --color__charcoal: #6D6875;
   --color__success: #06D6A0
 }
 
@@ -36,5 +36,10 @@
 
 .success-message {
   color: var(--color__success);
+  font-style: italic;
+}
+
+.explanation {
+  color: var(--color__charcoal);
   font-style: italic;
 }
