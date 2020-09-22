@@ -8,5 +8,17 @@
     <% else %>
       <h2><%= link_to merchant.name, "/merchants/#{merchant.id}" %></h2>
     <% end %>
+
+    <section class="discounts">
+      <h4>Discounts offered by <%= merchant.name %>:</h4>
+      <% merchant.discounts.each do |discount| %>
+        <section id="discount-<%= discount.id %>">
+          <ul>
+            <li>Discount percent: <%= format_as_percent(discount.percent) %></li>
+            <li>Minimum quantity: <%= discount.min_qty %></li>
+          </ul>
+        </section>
+      <% end %>
+    </section>
   </section>
 <% end %>

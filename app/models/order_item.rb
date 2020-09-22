@@ -14,4 +14,16 @@ class OrderItem < ApplicationRecord
   def fulfillable?
     item.inventory >= quantity
   end
+
+  def was_discounted? 
+    price < item_regular_price
+  end
+
+  def item_regular_price
+    Item.find(item_id).price
+  end
+
+  def item_discount_percent
+    (item_regular_price - price) / item_regular_price
+  end
 end

@@ -4,7 +4,7 @@ RSpec.describe "User Profile Path" do
   describe "As a registered user" do
     before :each do
       @user = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan@example.com', password: 'securepassword')
-      @admin = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'admin@example.com', password: 'securepassword')
+      @admin = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'admin@example.com', password: 'securepassword', role: 2)
     end
 
     it "I can view my profile page" do
@@ -104,6 +104,24 @@ RSpec.describe "User Profile Path" do
 
       expect(page).to have_content("email: [\"has already been taken\"]")
       expect(page).to have_button "Update Profile"
+    end
+
+    it "I can link to my orders" do 
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit '/profile'
+
+      click_link 'My Orders'
+
+      expect(current_path).to eq('/profile/orders')
+    end
+
+    it "I cannot link to my orders if an admin" do 
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+
+      visit '/profile'
+
+      expect(page).to_not have_link 'My Orders'
     end
   end
 end
