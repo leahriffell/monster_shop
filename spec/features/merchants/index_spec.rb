@@ -38,7 +38,7 @@ RSpec.describe 'Merchant Index Page' do
 
       within "#merchant-#{@merchant_1.id}" do 
         @merchant_1.discounts.each do |discount|
-          expect(page).to have_content("Discount percent: #{discount.percent.round(0)}%")
+          expect(page).to have_content("Discount percent: #{(discount.percent*100).round(0)}%")
           expect(page).to have_content("Minimum quantity: #{discount.min_qty}")
         end
       end
