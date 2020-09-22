@@ -23,7 +23,7 @@ RSpec.describe 'Merchant Discount Edit Page' do
     it "I can edit existing info" do 
       visit "/merchant/discounts/#{@discount.id}/edit"
 
-      fill_in :discount_percent, with: 7
+      fill_in :discount_percent, with: 0.07
       fill_in :discount_min_qty, with: 7
       click_button "Update Discount"
 
