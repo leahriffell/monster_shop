@@ -34,7 +34,7 @@
   grid-gap: 30px;
 }
 
-.logged-in-name {
+.success-message {
   color: var(--color__success);
   font-style: italic;
 }
