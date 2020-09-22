@@ -14,11 +14,16 @@ RSpec.describe OrderItem do
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @user = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan@example.com', password: 'securepassword')
+
+      @discount = @megan.discounts.create!(percent: 0.5, min_qty: 100)
+
       @order_1 = @user.orders.create!
       @order_2 = @user.orders.create!
+
       @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2)
       @order_item_2 = @order_1.order_items.create!(item: @hippo, price: @hippo.price, quantity: 3)
       @order_item_3 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 27)
+      @order_item_4 = @order_2.order_items.create!(item: @giant, price: (@hippo.price * @discount.percent), quantity: 100)
     end
 
     it '.subtotal' do
@@ -39,6 +44,11 @@ RSpec.describe OrderItem do
       @ogre.reload
       expect(@order_item_1.fulfilled).to eq(true)
       expect(@ogre.inventory).to eq(3)
+    end
+
+    it '.was_discounted?' do 
+      expect(@order_item_4.was_discounted?).to eq(true)
+      expect(@order_item_3.was_discounted?).to eq(false)
     end
   end
 end

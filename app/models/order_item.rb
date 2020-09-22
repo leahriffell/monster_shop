@@ -14,4 +14,8 @@ class OrderItem < ApplicationRecord
   def fulfillable?
     item.inventory >= quantity
   end
+
+  def was_discounted? 
+    price < Item.find(item_id).price
+  end
 end
