@@ -26,12 +26,12 @@
               <li><%= link_to 'Items', '/items' %></li>
               <li><%= link_to "Cart: #{cart.count}", cart_path unless current_user && current_admin? %></li>
               <% if current_user %>
-              <% if current_merchant_user? %>
-                <%= link_to 'Merchant Dashboard', merchant_dashboard_path %></li>
-              <% elsif current_admin? %>
-                <li><%= link_to 'Admin Dashboard', admin_dashboard_path %></li>
-                <li><%= link_to 'Users', '/admin/users' %></li>
-              <% end %>
+                <% if current_merchant_user? %>
+                  <%= link_to 'Merchant Dashboard', merchant_dashboard_path %></li>
+                <% elsif current_admin? %>
+                  <li><%= link_to 'Admin Dashboard', admin_dashboard_path %></li>
+                  <li><%= link_to 'Users', '/admin/users' %></li>
+                <% end %>
               <li><%= link_to 'Profile', profile_path %></li>
               <li><%= link_to 'Log Out', logout_path %></li>
               <li class="logged-in-name">Logged in as <%= current_user.name %></li>

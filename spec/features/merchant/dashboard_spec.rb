@@ -103,6 +103,19 @@ RSpec.describe 'Merchant Dashboard' do
           visit '/merchant'
         end
       end
+  end
+
+    it "I can delete a discount" do
+      visit '/merchant'
+      
+      within("#discount-#{@merchant_1.discounts.first.id}") do
+        click_link "Delete"
+      end
+
+      expect(current_path).to eq("/merchant")
+
+      expect(@merchant_1.discounts.size).to eq(4)
+      expect(page).to_not have_css("#discount-#{discount.id}")
     end
   end
 end

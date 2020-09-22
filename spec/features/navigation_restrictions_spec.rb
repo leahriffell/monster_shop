@@ -163,10 +163,6 @@ RSpec.describe 'Navigation Restrictions' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
 
-    xit 'I can not visit the user profile' do
-      visit '/profile'
-    end
-
     it 'I cannot visit the merchant dashboard' do
       visit '/merchant'
     end
