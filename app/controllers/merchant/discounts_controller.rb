@@ -10,7 +10,14 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def edit
+    @discount = Discount.find(params[:id])
+    @merchant = @discount.merchant
+  end 
 
+  def update
+    discount = Discount.find(params[:format])
+    discount.update(discount_params)
+    redirect_to merchant_dashboard_path
   end
 
   private 
