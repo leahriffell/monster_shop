@@ -45,4 +45,8 @@ class Merchant < ApplicationRecord
   def discount_percent_for(qty)
     discounts.where("min_qty <= #{qty}").order(percent: :desc).first.percent
   end
+
+  def unfulfilled_order_items
+    order_items.where(fulfilled: false)
+  end
 end
