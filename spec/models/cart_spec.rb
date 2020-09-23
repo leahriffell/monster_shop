@@ -93,12 +93,5 @@ RSpec.describe Cart do
 
       expect(@cart.subtotal_with_discount(@giant, discount_percent)).to eq(total)
     end
-
-    it 'any_discounts?' do
-      @cart_2 = Cart.new({})
-
-      expect(@cart.any_discounts?).to eq(true)
-      expect(@cart_2.any_discounts?).to eq(false)
-    end
   end
 end
