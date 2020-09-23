@@ -35,7 +35,7 @@ $ rails s (You should be able to access the app via http://localhost:3000/)
 ```
 
 ### Test suite
-- Run with `$ bundle exec rspec`. There should be 270 passing tests.
+- Run with `$ bundle exec rspec`. There should be 271 passing tests.
 
 ## Data Structure
 
