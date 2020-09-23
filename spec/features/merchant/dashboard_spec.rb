@@ -114,8 +114,7 @@ RSpec.describe 'Merchant Dashboard' do
 
       expect(current_path).to eq("/merchant")
 
-      expect(@merchant_1.discounts.size).to eq(4)
-      expect(page).to_not have_css("#discount-#{discount.id}")
+      expect(Discount.count).to eq(4)
     end
   end
 end
