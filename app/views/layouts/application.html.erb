@@ -11,7 +11,6 @@
 
   <body>
     <nav>
-
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -41,9 +40,11 @@
         </div>
       </nav>
 
-    <% flash.each do |type, message| %>
-    <p><%= message %></p>
-    <% end %>
-    <%= yield %>
+    <div class='main-content'>
+      <% flash.each do |type, message| %>
+      <p><%= message %></p>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>
