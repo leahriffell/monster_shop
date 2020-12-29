@@ -1,6 +1,4 @@
 # Monster Shop Bulk Discount
-BE Mod 2 Final Solo Project
-
 ![Logo](app/assets/images/logo.png)
 
 ## Background and Description
